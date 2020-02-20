@@ -3,6 +3,7 @@ import './style.scss';
 import Search from '../../components/Search'
 import UserCard from '../../components/UserCard';
 
+
 const Users = ({users}) => {
     return (
         <>
@@ -14,7 +15,7 @@ const Users = ({users}) => {
             />
 
         <main>
-           <UserCard user={{name: "Eva"}} />
+           <UserCard user={{name: "Eva"}} key={user.name+user.id} />
         </main>
         </section>
        
