@@ -1,3 +1,3 @@
 export const apiUrl = {
-    api: 'http://jsonplaceholder.typicode.com/users',
+    api: 'https://jsonplaceholder.typicode.com',
 }

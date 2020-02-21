@@ -1,20 +1,19 @@
 .user-card {
-    width: 300px;
-    height: 400px;
     display: flex;
     flex-direction: column;
-    align-items: flex-start;
-    justify-content: center;
-    border: 1px solid #381460;
+    min-height: 100%;
+    padding: 1rem;
+    border: 1px solid #c5c5c5;
     h1 {
       font-size: 24px;
-      color: #381460;
+      color: #432861;
     }
     a {
       font-size: 16px;
       color: #381460;
     }
     &:hover {
-      box-shadow: 0px 0px 16px 0px #381460;
+      box-shadow: 0px 0px 8px 0px #a08b95;
+      transition: box-shadow 0.3s;
     }
   }

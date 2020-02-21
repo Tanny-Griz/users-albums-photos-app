@@ -1,20 +1,26 @@
 header {
-    width: 100%;
-    height: 100px;
-    display: flex;
-    box-sizing: border-box;
-    justify-content: flex-start;
-    align-items: center;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #fff;
+
+  .holder-button {
+    padding: 2rem 0;
     button {
-      width: fit-content;
-      padding: 5px 10px;
-      border: 1px solid #381460;
-      background: #420c26;
+      padding: 0.7rem 1rem;
+      border: none;
+      background: #a08b95;
+      text-transform: uppercase;
       color: white;
       cursor: pointer;
-      margin: 0 10px 0 0;
+      margin: 0 0.5rem;
+
       &:hover {
-      background: #10031d;
+        background: #a05579;
+        transition: background 0.3s;
       }
     }
   }
+
+}
