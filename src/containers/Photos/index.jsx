@@ -7,7 +7,7 @@ const Photos = ({ photos }) => {
     return (
 
         <div className="container">
-            <div className="holder-cards">
+            <div className="holder-photos">
                 {photos.map(photo => {
                     return <UserPhotos
                         photo={photo}

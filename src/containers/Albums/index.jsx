@@ -19,7 +19,6 @@ const Albums = ({ albums }) => {
                 })}
             </div>
         </div>
-
     )
 }
 

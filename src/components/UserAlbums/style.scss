@@ -1,0 +1,20 @@
+.holder-cards .holder-albums {
+
+    @media screen and (min-width: 480px) {
+        width: 33.33%;
+    }
+
+    @media screen and (min-width: 768px) {
+        width: 25%;
+    }
+}
+
+.albums {
+    p {
+        font-style: italic;
+    }
+
+    span {
+        font-weight: 700;
+    }
+}

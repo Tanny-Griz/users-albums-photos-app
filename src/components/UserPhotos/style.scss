@@ -1,0 +1,29 @@
+.item-photo {
+    display: flex;
+    flex-direction: column;
+    min-height: 100%;
+    padding: 1rem;
+    border: 1px solid #c5c5c5;
+    h1 {
+      font-size: 24px;
+      color: #432861;
+      flex: 1 0 auto;
+      margin-bottom: 16px;
+    }
+    p {
+      font-style: italic;
+      flex: 1 0 auto;
+    }
+    span {
+      font-weight: 700;
+      font-style: normal;
+    }
+    a {
+      font-size: 14px;
+      color: #381460;
+    }
+    &:hover {
+      box-shadow: 0px 0px 8px 0px #a08b95;
+      transition: box-shadow 0.3s;
+    }
+  }

@@ -4,9 +4,9 @@ import './style.scss';
 const UserAlbums = ({ album }) => {
     return (
         <>
-            <div className="holder-user">
-                <div className="user-card">
-                    <p>Name: {album.title}</p>
+            <div className="holder-user holder-albums">
+                <div className="user-card albums">
+                    <p><span>Name: </span> {album.title}</p>
                 </div>
             </div>
         </>
