@@ -3,9 +3,7 @@ import './style.scss';
 import UserCard from '../../components/UserCard';
 
 const Users = ({ users }) => {
-
     return (
-
         <div className="container">
             <div className="holder-cards">
                 {users.map(user => {
@@ -16,7 +14,6 @@ const Users = ({ users }) => {
                 })}
             </div>
         </div>
-
     )
 }
 

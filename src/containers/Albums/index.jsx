@@ -6,9 +6,7 @@ import UserAlbums from '../../components/UserAlbums';
 
 
 const Albums = ({ albums }) => {
-
     return (
-
         <div className="container">
             <div className="holder-cards">
                 {albums.map(album => {
