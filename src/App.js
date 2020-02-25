@@ -5,7 +5,7 @@ import Header from './components/Header';
 import Users from './containers/Users';
 import Albums from './containers/Albums';
 import Photos from './containers/Photos';
-import { Route, Switch } from "react-router-dom";
+import { Route, Switch } from 'react-router-dom';
 
 import { getUsers } from './services/api';
 import { getAlbums } from './services/api';
@@ -38,15 +38,13 @@ const App = () => {
     photosFromApi(setPhotos);
   }, [])
 
-  console.log(users)
-
   return (
     <>
       <Header />
       <Switch>
-        <Route exact path="/users" render={(props) => <Users {...props} users={users} />} />
-        <Route path="/albums" render={(props) => <Albums {...props} albums={albums} />} />
-        <Route path="/photos" render={(props) => <Photos {...props} photos={photos} />} />
+        <Route exact path="/users" render={(props) => <Users {...props} users={users} setUsers={setUsers}/>} />
+        <Route path="/albums" render={(props) => <Albums {...props} albums={albums} setAlbums={setAlbums} />} />
+        <Route path="/photos" render={(props) => <Photos {...props} photos={photos} setPhotos={setPhotos} />} />
       </Switch>
     </>
   );

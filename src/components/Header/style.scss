@@ -1,5 +1,5 @@
 header {
-  background-color: rgb(204, 204, 204);
+  background-color: #303030;
 
   .holder-button {
     display: flex;
@@ -10,14 +10,14 @@ header {
         justify-content: center;
     }
     button {
-      padding: 0.7rem 1.8rem;
       border: none;
-      background: #303030;
       text-transform: uppercase;
+      background-color: transparent;
       color: white;
       cursor: pointer;
       margin: 0 3rem;
       margin-bottom: 1rem;
+      box-shadow: 0 0 10px 0 rgba(255, 255, 255, 0.5);
       @media screen and (min-width: 480px) {
         margin: 0 2rem;
       }
@@ -25,8 +25,11 @@ header {
       &:hover {
         background: #77006d;
         transition: background 0.3s;
+        box-shadow: 0 0 15px 0 rgba(255, 255, 255, 0.6);
       }
       a {
+        display: inline-block;
+        padding: 0.7rem 1.8rem;
         color: #fff;
         text-decoration: none;
       }

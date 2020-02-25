@@ -1,21 +1,70 @@
 .user-card {
+  display: flex;
+  flex-direction: column;
+  min-height: 100%;
+  padding: 1rem;
+  border: 1px solid #c5c5c5;
+
+  h1 {
+    font-size: 24px;
+    color: #432861;
+    flex: 1 0 auto;
+    margin-bottom: 16px;
+  }
+
+  a {
+    font-size: 16px;
+    color: #381460;
+  }
+
+  &:hover {
+    box-shadow: 0px 0px 8px 0px #a08b95;
+    transition: box-shadow 0.3s;
+  }
+
+  .btn-group {
     display: flex;
-    flex-direction: column;
-    min-height: 100%;
-    padding: 1rem;
-    border: 1px solid #c5c5c5;
-    h1 {
-      font-size: 24px;
-      color: #432861;
-      flex: 1 0 auto;
-      margin-bottom: 16px;
+    justify-content: space-between;
+    margin-top: 16px;
+
+    @media screen and (min-width: 480px) {
+      flex-direction: column;
     }
-    a {
-      font-size: 16px;
-      color: #381460;
+
+    @media (min-width: 660px) {
+      flex-direction: row;
     }
-    &:hover {
-      box-shadow: 0px 0px 8px 0px #a08b95;
-      transition: box-shadow 0.3s;
+
+    .edit {
+      background-color: #303030;
+
+      &:hover {
+        background: #5f5f5f;
+        transition: background 0.3s;
+        box-shadow: none;
+      }
+    }
+
+    button {
+      border: none;
+      text-transform: uppercase;
+      background: #77006d;
+      color: rgb(255, 255, 255);
+      padding: 6px 20px;
+
+      @media screen and (min-width: 480px) {
+        margin-bottom: 16px;
+      }
+
+      @media (min-width: 660px) {
+        margin-bottom: 0;
+      }
+
+      &:hover {
+        background: #303030;
+        transition: background 0.3s;
+        box-shadow: 0 0 15px 0 rgba(128, 128, 128, 0.6);
+      }
     }
   }
+}

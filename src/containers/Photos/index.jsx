@@ -1,37 +1,66 @@
-import React, {useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import './style.scss';
 import Search from '../../components/Search';
 import UserPhotos from '../../components/UserPhotos';
-import Pagination from '../../components/Pagination/Pagination';
+import Modal from '../../components/ModalContainer';
+import PhotoModal from '../../components/ModalContainer/PhotosModal';
 
 const Photos = ({ photos }) => {
 
-    const [currentPage, setCurrentPage] = useState(1);
-    const [postsPerPage] = useState(10);
-    
-    // Change page
-    const paginate = pageNumber => setCurrentPage(pageNumber);
-  
-    const indexOfLastPost = currentPage * postsPerPage;
-    const indexOfFirstPost = indexOfLastPost - postsPerPage;
-    const currentPost = photos.slice(indexOfFirstPost, indexOfLastPost)
+    // modal
+    const [checkedPhotosId, setCheckedPhotosId] = useState(null);
+    const [showModal, setShowModal] = useState(false);
+    const [photo, setPhoto] = useState({});
+
+    const handleSetId = id => setCheckedPhotosId(id);
+
+    // search
+    const [filtredPhotos, setfiltredPhotos] = useState([]);
+
+    useEffect(() => {
+        setfiltredPhotos(photos);
+    }, [photos]);
+
+    useEffect(() => {
+        if (checkedPhotosId !== null && photos.length) {
+            const photo = photos.find(p => p.id === checkedPhotosId);
+            setPhoto(photo);
+            setShowModal(true);
+        }
+    }, [checkedPhotosId]);
+
+    const handleSearchPhotos = (e) => {
+        let result = photos.filter((photo => {
+            let eTargetValue = e.target.value.toLowerCase();
+            let photosNameIncludes = photo.title.toLowerCase().includes(eTargetValue);
+            return photosNameIncludes;
+        }));
+        console.log(result);
+        setfiltredPhotos(result);
+        
+    }
 
     return (
-        <div className="container">
-            <div className="holder-photos">
-                {currentPost.map(photo => {
-                    return <UserPhotos
-                        photo={photo}
-                        key={photo.albumId + photo.id}
-                        currentPost={currentPost}
-                    />
-                })}
+        <>
+            <Search
+                onChange={handleSearchPhotos}>
+                Search
+            </Search>
+            <div className="container">
+                <div className="holder-photos">
+                    {filtredPhotos.map(photo => {
+                        return <UserPhotos
+                            photo={photo}
+                            key={photo.albumId + photo.id}
+                            handleSetId={handleSetId}
+                        />
+                    })}
+                </div>
             </div>
-            <Pagination 
-                postsPerPage={postsPerPage} 
-                totalPosts={photos.length} 
-                paginate={paginate} />
-        </div>
+            <Modal {...{showModal, setShowModal}} setId={setCheckedPhotosId}>
+                <PhotoModal photo={photo} />
+            </Modal>
+        </>
     )
 }
 

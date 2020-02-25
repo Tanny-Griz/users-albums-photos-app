@@ -10,7 +10,8 @@ const Search = ({ title, placeholder, onChange }) => {
       <input
         type="text"
         placeholder={placeholder || 'Enter value'}
-        onChange={(e) => onChange && onChange(e.target.value)}
+        // onChange={(e) => onChange && onChange(e.target.value)}
+        onChange={onChange}
       />
     </div>
   );

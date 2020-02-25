@@ -26,4 +26,16 @@
       box-shadow: 0px 0px 8px 0px #a08b95;
       transition: box-shadow 0.3s;
     }
+    button {
+      border: none;
+      text-transform: uppercase;
+      background: #77006d;
+      color: rgb(255, 255, 255);
+      padding: 0.5rem 0;
+      &:hover {
+        background: #303030;
+        transition: background 0.3s;
+        box-shadow: 0 0 15px 0 rgba(128, 128, 128, 0.6);
+      }
+    }
   }
