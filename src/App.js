@@ -42,7 +42,8 @@ const App = () => {
     <>
       <Header />
       <Switch>
-        <Route exact path="/users" render={(props) => <Users {...props} users={users} setUsers={setUsers}/>} />
+        <Route exact path="/" render={(props) => <Users {...props} users={users} setUsers={setUsers}/>} />
+        <Route path="/users" render={(props) => <Users {...props} users={users} setUsers={setUsers}/>} />
         <Route path="/albums" render={(props) => <Albums {...props} albums={albums} setAlbums={setAlbums} />} />
         <Route path="/photos" render={(props) => <Photos {...props} photos={photos} setPhotos={setPhotos} />} />
       </Switch>
