@@ -26,12 +26,16 @@
       box-shadow: 0px 0px 8px 0px #a08b95;
       transition: box-shadow 0.3s;
     }
+    .btn-group {
+      display: flex;
+      justify-content: space-between;
+    }
     button {
       border: none;
       text-transform: uppercase;
       background: #77006d;
       color: rgb(255, 255, 255);
-      padding: 0.5rem 0;
+      padding: 6px 15px;
       &:hover {
         background: #303030;
         transition: background 0.3s;

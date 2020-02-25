@@ -7,7 +7,7 @@ import AlbumModal from '../../components/ModalContainer/AlbumModal';
 import AlbumModalEdit from '../../components/ModalContainer/AlbumModal/AlbumModalEdit';
 
 
-const Albums = ({ albums }) => {
+const Albums = ({ albums, setAlbums }) => {
     // modal
     const [checkedAlbumsId, setCheckedAlbumsId] = useState(null);
     const [showModal, setShowModal] = useState(false);
@@ -40,9 +40,10 @@ const Albums = ({ albums }) => {
             }
             return item;
         })
-        setAlbum(resultArr)
-        setCheckedAlbumsId(null)
-        setShowModal(false)
+        console.log('saveee')
+        setAlbums(resultArr);
+        setCheckedAlbumsId(null);
+        setShowModal(false);
     }
 
     const handleSearchAlbums = (e) => {

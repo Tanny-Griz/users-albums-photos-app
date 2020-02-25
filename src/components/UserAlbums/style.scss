@@ -4,7 +4,7 @@
         width: 33.33%;
     }
 
-    @media screen and (min-width: 768px) {
+    @media screen and (min-width: 992px) {
         width: 25%;
     }
 }
@@ -17,5 +17,14 @@
 
     span {
         font-weight: 700;
+    }
+
+    .btn-group {
+        button {
+            padding: 6px 15px;
+            @media screen and (min-width: 768px) {
+                margin-bottom: 16px;
+            }
+        }
     }
 }

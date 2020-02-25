@@ -10,23 +10,38 @@
     align-items: center;
 }
 
-.modal-box .user-card {
-    background-color: white;
-    min-height: auto;
-    padding: 20px;
-    input {
-        margin-bottom: 16px;
-        color: #818181;
-    }
-    button {
-        color: #fff;
-        border: none;
-        background-color: #007777;
-        padding: 6px 0;
-        margin-top: 16px;
-        &:hover {
-            background: #77006d;
-            transition: background 0.3s;
+.modal-box {
+    .user-card {
+        background-color: white;
+        min-height: auto;
+        padding: 20px;
         }
+
+        input {
+            margin-bottom: 16px;
+            color: #818181;
+        }
+
+        button {
+            color: #fff;
+            border: none;
+            background-color: #007777;
+            padding: 6px 0;
+            margin-top: 16px;
+
+            &:hover {
+                background: #77006d;
+                transition: background 0.3s;
+            }
+        }
+}
+
+.photos {
+    width: 100%;
+    @media screen and (min-width: 480px) {
+        width: 70%;
+    }
+    @media screen and (min-width: 768px) {
+        width: 50%;
     }
 }

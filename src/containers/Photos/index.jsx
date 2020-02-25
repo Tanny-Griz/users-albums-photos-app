@@ -4,18 +4,23 @@ import Search from '../../components/Search';
 import UserPhotos from '../../components/UserPhotos';
 import Modal from '../../components/ModalContainer';
 import PhotoModal from '../../components/ModalContainer/PhotosModal';
+import PhotoModalEdit from '../../components/ModalContainer/PhotosModal/PhotoModalEdit';
 
-const Photos = ({ photos }) => {
+const Photos = ({ photos, setPhotos }) => {
 
     // modal
     const [checkedPhotosId, setCheckedPhotosId] = useState(null);
     const [showModal, setShowModal] = useState(false);
+    const [typeOfModal, setTypeOfModal] = useState('edit');
     const [photo, setPhoto] = useState({});
-
-    const handleSetId = id => setCheckedPhotosId(id);
 
     // search
     const [filtredPhotos, setfiltredPhotos] = useState([]);
+
+    const handleSetId = (id, type) => {
+        setTypeOfModal(type);
+        setCheckedPhotosId(id);
+    }
 
     useEffect(() => {
         setfiltredPhotos(photos);
@@ -28,6 +33,18 @@ const Photos = ({ photos }) => {
             setShowModal(true);
         }
     }, [checkedPhotosId]);
+
+    const handleChangePhoto = (newPhoto) => {
+        const resultArr = [...photos].map(item => {
+            if (newPhoto.id === item.id ) {
+                return newPhoto
+            }
+            return item;
+        })
+        setPhotos(resultArr);
+        setCheckedPhotosId(null);
+        setShowModal(false);
+    }
 
     const handleSearchPhotos = (e) => {
         let result = photos.filter((photo => {
@@ -58,7 +75,11 @@ const Photos = ({ photos }) => {
                 </div>
             </div>
             <Modal {...{showModal, setShowModal}} setId={setCheckedPhotosId}>
-                <PhotoModal photo={photo} />
+                {typeOfModal == 'info' && <PhotoModal 
+                                            photo={photo} />}
+                {typeOfModal == 'edit' && <PhotoModalEdit 
+                                            photo={photo} 
+                                            handleChangePhoto={handleChangePhoto} />}
             </Modal>
         </>
     )

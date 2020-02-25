@@ -1,6 +1,6 @@
 import React from 'react';
 
-const UserModal = ( {user }) => {
+const UserModal = ({ user }) => {
     return (
         <div className='user-card'>
             <h1>{user.name}</h1>

@@ -41,9 +41,9 @@ const Users = ({ users, setUsers }) => {
             }
             return item;
         })
-        setUsers(resultArr)
-        setCheckedUserId(null)
-        setShowModal(false)
+        setUsers(resultArr);
+        setCheckedUserId(null);
+        setShowModal(false);
     }
 
 
