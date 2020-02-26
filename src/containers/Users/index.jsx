@@ -5,47 +5,84 @@ import Search from '../../components/Search';
 import Modal from '../../components/ModalContainer';
 import UserModal from '../../components/ModalContainer/UserModal';
 import UserModalEdit from '../../components/ModalContainer/UserModal/UserModalEdit';
+import { useReducer } from 'react';
 
+const initialState = {
+    users: [],
+    modal: {
+        isShowModal: false,
+        user: {},
+    }
+}
+
+const reducer = (state, action) => {
+    // action обьект
+    // dispatch({type: "PROP"})
+    switch (action.type) {
+        case "SET_USERS":
+            return {
+                ...state,
+                users: action.payload,
+            };
+        case "SHOW_MODAL":
+            return {
+                ...state,
+                modal: {
+                    isShowModal: true,
+                    user: state.users.find(u => u.id === action.payload)
+                }
+            };
+        case "HIDE_MODAL":
+            return {
+                ...state,
+                modal: {
+                    isShowModal: false,
+                    user: null
+                }
+            };
+        default:
+            return state;
+    }
+}
 
 const Users = ({ users, setUsers }) => {
-    // modal
-    const [checkedUserId, setCheckedUserId] = useState(null);
-    const [showModal, setShowModal] = useState(false);
-    const [typeOfModal, setTypeOfModal] = useState('edit');
-    const [user, setUser] = useState({});
 
-    // filter
+    const [state, dispatch] = useReducer(reducer, initialState);
+    const [typeOfModal, setTypeOfModal] = useState('edit');
     const [filtredUsers, setfiltredUsers] = useState([]);
 
+    useEffect(() => {
+        // кажд раз при изменен users запис сост-е users
+        dispatch({ type: "SET_USERS", payload: users })
+    }, [users])
+
+    const handleShowModal = (id) => {
+        dispatch({ type: "SHOW_MODAL", payload: id })
+    }
+
+    const handleHideModal = () => {
+        dispatch({ type: "HIDE_MODAL" })
+    }
+
     const handleSetId = (id, type) => {
+        handleShowModal(id);
         setTypeOfModal(type);
-        setCheckedUserId(id);
     };
+
+    const handleChangeUser = (newUser) => {
+            const resultArr = [...users].map(item => {
+                if (newUser.id === item.id ) {
+                    return newUser
+                }
+                return item;
+            })
+            setUsers(resultArr);
+            handleHideModal();
+        }
 
     useEffect(() => {
         setfiltredUsers(users);
     }, [users]);
-
-    useEffect(() => {
-        if (checkedUserId !== null && users.length) {
-            const user = users.find(u => u.id === checkedUserId);
-            setUser(user);
-            setShowModal(true);
-        }
-    }, [checkedUserId]);
-
-    const handleChangeUser = (newUser) => {
-        const resultArr = [...users].map(item => {
-            if (newUser.id === item.id ) {
-                return newUser
-            }
-            return item;
-        })
-        setUsers(resultArr);
-        setCheckedUserId(null);
-        setShowModal(false);
-    }
-
 
     const handleSearchUsers = (e) => {
         let result = users.filter((user => {
@@ -54,17 +91,14 @@ const Users = ({ users, setUsers }) => {
             return userNameIncludes;
         }));
         setfiltredUsers(result);
-        console.log(result);
     }
 
     return (
         <>
-            <Search
-                onChange={handleSearchUsers}>
+            <Search onChange={handleSearchUsers}>>
                 Search
             </Search>
             <div className="container">
-
                 <div className="holder-cards">
                     {filtredUsers.map(user => {
                         return <UserCard
@@ -75,12 +109,13 @@ const Users = ({ users, setUsers }) => {
                     })}
                 </div>
             </div>
-            <Modal {...{ showModal, setShowModal }} setId={setCheckedUserId}>
-                {typeOfModal == 'info' && <UserModal 
-                                            user={user} />}
-                {typeOfModal == 'edit' && <UserModalEdit 
-                                            user={user}
-                                            handleChangeUser={handleChangeUser}/>}
+            <Modal isShowModal={state.modal.isShowModal}
+                    handleHideModal={handleHideModal} >
+                {typeOfModal == 'info' && 
+                <UserModal user={state.modal.user} />}
+                {typeOfModal == 'edit' &&
+                <UserModalEdit user={state.modal.user} 
+                               handleChangeUser={handleChangeUser} />}
             </Modal>
         </>
     )

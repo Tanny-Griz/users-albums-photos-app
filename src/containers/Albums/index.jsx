@@ -5,46 +5,83 @@ import UserAlbums from '../../components/UserAlbums';
 import Modal from '../../components/ModalContainer';
 import AlbumModal from '../../components/ModalContainer/AlbumModal';
 import AlbumModalEdit from '../../components/ModalContainer/AlbumModal/AlbumModalEdit';
+import { useReducer } from 'react';
 
+const initialState = {
+    albums: [],
+    modal: {
+        isShowModal: false,
+        albums: {},
+    }
+}
+
+const reducer = (state, action) => {
+    switch (action.type) {
+        case "SET_ALBUMS":
+            return {
+                ...state,
+                albums: action.payload,
+            };
+        case "SHOW_MODAL":
+            return {
+                ...state,
+                modal: {
+                    isShowModal: true,
+                    album: state.albums.find(a => a.id === action.payload)
+                }
+            };
+        case "HIDE_MODAL":
+            return {
+                ...state,
+                modal: {
+                    isShowModal: false,
+                    album: null
+                }
+            };
+        default:
+            return state;
+    }
+}
 
 const Albums = ({ albums, setAlbums }) => {
-    // modal
-    const [checkedAlbumsId, setCheckedAlbumsId] = useState(null);
-    const [showModal, setShowModal] = useState(false);
-    const [typeOfModal, setTypeOfModal] = useState('edit');
-    const [album, setAlbum] = useState({});
 
+    const [state, dispatch] = useReducer(reducer, initialState);
+    const [typeOfModal, setTypeOfModal] = useState('edit');
     const [filtredAlbums, setfiltredAlbums] = useState([]);
 
+    useEffect(() => {
+        dispatch({ type: "SET_ALBUMS", payload: albums })
+    }, [albums]);
+
+    const handleShowModal = (id) => {
+        dispatch({ type: "SHOW_MODAL", payload: id })
+    }
+
+    const handleHideModal = () => {
+        dispatch({ type: "HIDE_MODAL" })
+    }
+
     const handleSetId = (id, type) => {
+        handleShowModal(id);
         setTypeOfModal(type);
-        setCheckedAlbumsId(id);
-    } 
+    }
+
+    const handleChangeAlbum = (newAlbum) => {
+        const resultArr = [...albums].map(item => {
+            if (newAlbum.id === item.id) {
+                return newAlbum
+            }
+            return item;
+        })
+        setAlbums(resultArr);
+        handleHideModal();
+    }
 
     useEffect(() => {
         setfiltredAlbums(albums);
     }, [albums]);
 
-    useEffect(() => {
-        if (checkedAlbumsId !== null && albums.length) {
-            const album = albums.find(a => a.id === checkedAlbumsId);
-            setAlbum(album);
-            setShowModal(true);
-        }
-    }, [checkedAlbumsId]);
-
-    const handleChangeAlbum = (newAlbum) => {
-        const resultArr = [...albums].map(item => {
-            if (newAlbum.id === item.id ) {
-                return newAlbum
-            }
-            return item;
-        })
-        console.log('saveee')
-        setAlbums(resultArr);
-        setCheckedAlbumsId(null);
-        setShowModal(false);
-    }
+    console.log(albums)
 
     const handleSearchAlbums = (e) => {
         let result = albums.filter((albums => {
@@ -73,12 +110,13 @@ const Albums = ({ albums, setAlbums }) => {
                     })}
                 </div>
             </div>
-            <Modal {...{showModal, setShowModal}} setId={setCheckedAlbumsId}>
-                {typeOfModal == "info" && <AlbumModal 
-                                            album={album} />}
-                {typeOfModal == "edit" && <AlbumModalEdit 
-                                            album={album} 
-                                            handleChangeAlbum={handleChangeAlbum} />}
+            <Modal isShowModal={state.modal.isShowModal}
+                    handleHideModal={handleHideModal}>
+                {typeOfModal == "info" && 
+                <AlbumModal album={state.modal.album} />}
+                {typeOfModal == "edit" && 
+                <AlbumModalEdit album={state.modal.album}
+                                handleChangeAlbum={handleChangeAlbum} />}
             </Modal>
         </>
     )

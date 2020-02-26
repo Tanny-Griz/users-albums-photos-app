@@ -5,46 +5,82 @@ import UserPhotos from '../../components/UserPhotos';
 import Modal from '../../components/ModalContainer';
 import PhotoModal from '../../components/ModalContainer/PhotosModal';
 import PhotoModalEdit from '../../components/ModalContainer/PhotosModal/PhotoModalEdit';
+import { useReducer } from 'react';
+
+const initialState = {
+    photos: [],
+    modal: {
+        isShowModal: false,
+        photo: {},
+    }
+}
+
+const reducer = (state, action) => {
+    // console.log(action.payload) - [5000]
+    switch (action.type) {
+        case "SET_PHOTOS":
+            return {
+                ...state,
+                photos: action.payload,
+            };
+        case "SHOW_MODAL":
+            return {
+                ...state,
+                modal: {
+                    isShowModal: true,
+                    photo: state.photos.find(p => p.id === action.payload)
+                }
+            }
+        case "HIDE_MODAL":
+            return {
+                ...state,
+                modal: {
+                    isShowModal: false,
+                    photo: null
+                }
+            };
+        default:
+            return state;
+    }
+}
 
 const Photos = ({ photos, setPhotos }) => {
 
-    // modal
-    const [checkedPhotosId, setCheckedPhotosId] = useState(null);
-    const [showModal, setShowModal] = useState(false);
+    const [state, dispatch] = useReducer(reducer, initialState);
     const [typeOfModal, setTypeOfModal] = useState('edit');
-    const [photo, setPhoto] = useState({});
-
-    // search
     const [filtredPhotos, setfiltredPhotos] = useState([]);
 
-    const handleSetId = (id, type) => {
-        setTypeOfModal(type);
-        setCheckedPhotosId(id);
-    }
-
     useEffect(() => {
-        setfiltredPhotos(photos);
+        dispatch({ type: "SET_PHOTOS", payload: photos })
     }, [photos]);
 
-    useEffect(() => {
-        if (checkedPhotosId !== null && photos.length) {
-            const photo = photos.find(p => p.id === checkedPhotosId);
-            setPhoto(photo);
-            setShowModal(true);
-        }
-    }, [checkedPhotosId]);
+    const handleShowModal = (id) => {
+        dispatch({ type: "SHOW_MODAL", payload: id })
+    }
+
+    const handleHideModal = () => {
+        dispatch({ type: "HIDE_MODAL" })
+    }
+
+    const handleSetId = (id, type) => {
+        handleShowModal(id);
+        setTypeOfModal(type);
+    }
 
     const handleChangePhoto = (newPhoto) => {
         const resultArr = [...photos].map(item => {
-            if (newPhoto.id === item.id ) {
+            if (newPhoto.id === item.id) {
                 return newPhoto
             }
             return item;
         })
         setPhotos(resultArr);
-        setCheckedPhotosId(null);
-        setShowModal(false);
+        handleHideModal();
     }
+
+    useEffect(() => {
+        setfiltredPhotos(photos);
+    }, [photos]);
 
     const handleSearchPhotos = (e) => {
         let result = photos.filter((photo => {
@@ -52,15 +88,12 @@ const Photos = ({ photos, setPhotos }) => {
             let photosNameIncludes = photo.title.toLowerCase().includes(eTargetValue);
             return photosNameIncludes;
         }));
-        console.log(result);
         setfiltredPhotos(result);
-        
     }
 
     return (
         <>
-            <Search
-                onChange={handleSearchPhotos}>
+            <Search onChange={handleSearchPhotos}>
                 Search
             </Search>
             <div className="container">
@@ -74,12 +107,13 @@ const Photos = ({ photos, setPhotos }) => {
                     })}
                 </div>
             </div>
-            <Modal {...{showModal, setShowModal}} setId={setCheckedPhotosId}>
-                {typeOfModal == 'info' && <PhotoModal 
-                                            photo={photo} />}
-                {typeOfModal == 'edit' && <PhotoModalEdit 
-                                            photo={photo} 
-                                            handleChangePhoto={handleChangePhoto} />}
+            <Modal isShowModal={state.modal.isShowModal}
+                    handleHideModal={handleHideModal}>
+                {typeOfModal == 'info' && 
+                <PhotoModal photo={state.modal.photo} />}
+                {typeOfModal == 'edit' && 
+                <PhotoModalEdit photo={state.modal.photo}
+                                handleChangePhoto={handleChangePhoto} />}
             </Modal>
         </>
     )
