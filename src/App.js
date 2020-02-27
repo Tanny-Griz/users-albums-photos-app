@@ -5,6 +5,7 @@ import Header from './components/Header';
 import Users from './containers/Users';
 import Albums from './containers/Albums';
 import Photos from './containers/Photos';
+import Create from './containers/Create';
 import { Route, Switch } from 'react-router-dom';
 
 import { getUsers } from './services/api';
@@ -46,6 +47,7 @@ const App = () => {
         <Route path="/users" render={(props) => <Users {...props} users={users} setUsers={setUsers}/>} />
         <Route path="/albums" render={(props) => <Albums {...props} albums={albums} setAlbums={setAlbums} />} />
         <Route path="/photos" render={(props) => <Photos {...props} photos={photos} setPhotos={setPhotos} />} />
+        <Route path="/create" render={() => <Create />} />
       </Switch>
     </>
   );

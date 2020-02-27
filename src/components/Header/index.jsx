@@ -11,6 +11,7 @@ const Header = () => {
                 <Button><Link to="/users">Users</Link></Button>
                 <Button><Link to="/photos">Photos</Link></Button>
                 <Button><Link to="/albums">Albums</Link></Button>
+                <Button><Link to="/create">Create</Link></Button>
             </div>
         </header>
     )
